@@ -1,0 +1,4 @@
+# macOS
+*.DS_Store
+*.pyc
+__pycahce__
