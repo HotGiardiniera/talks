@@ -1,0 +1,7 @@
+syntax = "proto3";
+package proto_messages;
+
+message Message {
+    int32 id = 1;
+    repeated string names = 2;
+}
