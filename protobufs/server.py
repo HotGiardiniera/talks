@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+
+import binascii
 import json
 import sys
 import socketserver
-import urllib
 from http.server import SimpleHTTPRequestHandler
 
 import grpc
@@ -32,18 +34,6 @@ class SimpleServiceServicer(messages_pb2_grpc.SimpleServiceServicer):
         return response
 
 
-def write_to_file_proto(obj: SimpleMessage, filename: str = 'pb_out'):
-    with open(filename, 'wb') as file:
-        file.write(obj.SerializeToString())
-
-
-def read_message_from_file(filename: str):
-    proto_obj = SimpleMessage()
-    with open(filename, 'rb') as file:
-        proto_obj.ParseFromString(file.read())
-    return proto_obj
-
-
 def grpc_serve():
     print("Starting grpc server port 50051...")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -62,21 +52,31 @@ class Handler(SimpleHTTPRequestHandler):
 
 
     def _decode_protobuf(self, body):
-        protobuf_message = urllib.parse.unquote(body.decode().split('=')[1]).encode()  # Ugly TODO comments and break down
+        # Since the POST is encoded to ascii we run into issues with  ecoding. This hack converts the text sent
+        # via http and converts the textual representation into bytes
+
+        message_as_text = body.decode().split('=')[1].replace('%', ' ').split(' ')
+        print(f'Message bytes as text {message_as_text}')
+        byte_list = [binascii.a2b_hex(x) for x in message_as_text if x]
+        byte_arr = bytearray()
+        for b in byte_list:
+            byte_arr.append(b[0])
         proto_obj = SimpleMessage()
-        proto_obj.ParseFromString(protobuf_message)
-        print("GOT A PROTOBUF MESSAGE!", proto_obj.id, proto_obj.names)
+        proto_obj.ParseFromString(byte_arr)
+        print(f'Original body: {body}')
+        print(f'Actual bytes: {byte_arr}')
+        print("PROTOBUF MESSAGE VALUES", proto_obj.id, proto_obj.array, proto_obj.other_obj)
 
     def _handle_json(self, body):
         decoded_body = json.loads(body.decode())
-        print("GOT A JSON MESSAGE!", decoded_body)
+        print("JSON MESSAGE VALUES", decoded_body)
 
 
     def do_POST(self):
         # Construct a server response.
         content_length = int(self.headers['Content-Length'])
         post_body = self.rfile.read(content_length)
-        if self.headers.get('Content-Type', '') == 'protobuf':
+        if self.headers.get('Content-Type', '') == 'application/octet-stream':
             self._decode_protobuf(post_body)
         else:
             self._handle_json(post_body)

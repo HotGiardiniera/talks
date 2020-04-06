@@ -3,9 +3,11 @@ package proto_messages;
 
 message SimpleMessage {
     int32 id = 1;
-    repeated string names = 2;
-    repeated int64 nums = 3;
-    bool is_json = 4;
+    repeated int32 array = 2;
+    message OtherObj {
+	    int32 id = 1;
+    }
+    OtherObj other_obj = 3;
 }
 
 message MessageRequest {
