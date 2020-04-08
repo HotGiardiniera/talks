@@ -27,10 +27,9 @@ class SimpleServiceServicer(messages_pb2_grpc.SimpleServiceServicer):
         return ret
 
     def HandleMessage(self, request, context):
-        print("Got message response")
         response = MessageResponse()
         response.id = self._increment_id()
-        response.type = "json" if request.message.is_json else "protobuf"
+        print("PROTOBUF MESSAGE VALUES\n", request)
         return response
 
 
@@ -69,7 +68,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def _handle_json(self, body):
         decoded_body = json.loads(body.decode())
-        print("JSON MESSAGE VALUES", decoded_body)
+        print("JSON MESSAGE VALUES", json.dumps(decoded_body, indent=4))
 
 
     def do_POST(self):
