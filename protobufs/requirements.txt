@@ -4,31 +4,61 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
---extra-index-url https://www.piwheels.org/simple
-
-backcall==0.1.0           # via ipython
-certifi==2019.11.28       # via requests
-chardet==3.0.4            # via requests
-decorator==4.4.2          # via ipython, traitlets
-grpcio-reflection==1.27.2  # via -r requirements.in
-grpcio-tools==1.27.2      # via -r requirements.in
-grpcio==1.27.2            # via grpcio-reflection, grpcio-tools
-idna==2.9                 # via requests
-ipython-genutils==0.2.0   # via traitlets
-ipython==7.13.0           # via -r requirements.in
-jedi==0.16.0              # via ipython
-parso==0.6.2              # via jedi
-pexpect==4.8.0            # via ipython
-pickleshare==0.7.5        # via ipython
-prompt-toolkit==3.0.5     # via ipython
-protobuf==3.11.3          # via -r requirements.in, grpcio-reflection, grpcio-tools
-ptyprocess==0.6.0         # via pexpect
-pygments==2.6.1           # via ipython
-requests==2.23.0          # via -r requirements.in
-six==1.14.0               # via grpcio, protobuf, traitlets
-traitlets==4.3.3          # via ipython
-urllib3==1.25.8           # via requests
-wcwidth==0.1.9            # via prompt-toolkit
+backcall==0.1.0
+    # via ipython
+certifi==2019.11.28
+    # via requests
+chardet==3.0.4
+    # via requests
+decorator==4.4.2
+    # via
+    #   ipython
+    #   traitlets
+grpcio==1.27.2
+    # via
+    #   grpcio-reflection
+    #   grpcio-tools
+grpcio-reflection==1.27.2
+    # via -r requirements.in
+grpcio-tools==1.27.2
+    # via -r requirements.in
+idna==2.9
+    # via requests
+ipython==7.13.0
+    # via -r requirements.in
+ipython-genutils==0.2.0
+    # via traitlets
+jedi==0.16.0
+    # via ipython
+parso==0.6.2
+    # via jedi
+pexpect==4.8.0
+    # via ipython
+pickleshare==0.7.5
+    # via ipython
+prompt-toolkit==3.0.5
+    # via ipython
+protobuf==3.18.3
+    # via
+    #   -r requirements.in
+    #   grpcio-reflection
+    #   grpcio-tools
+ptyprocess==0.6.0
+    # via pexpect
+pygments==2.6.1
+    # via ipython
+requests==2.23.0
+    # via -r requirements.in
+six==1.14.0
+    # via
+    #   grpcio
+    #   traitlets
+traitlets==4.3.3
+    # via ipython
+urllib3==1.25.8
+    # via requests
+wcwidth==0.1.9
+    # via prompt-toolkit
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
